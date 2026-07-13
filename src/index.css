@@ -1,0 +1,263 @@
+@import 'tailwindcss';
+
+/* Dark mode driven by a `.dark` class on <html> (toggled by the theme button). */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens. Defined as Tailwind theme colors so they drive utilities
+   (bg-brand, text-muted, border-line …), inline styles (var(--color-brand)),
+   and JS-read chart colours — all from one place. `.dark` overrides the same
+   names so everything switches together.
+   Palette: emerald/teal "financial health" primary, warm-gold accent for
+   money/offers, and a 6-hue categorical set for the health dimensions.
+---------------------------------------------------------------------------- */
+@theme {
+  --color-bg: #f4f8f6;
+  --color-surface: #ffffff;
+  --color-surface-2: #eef4f1;
+  --color-surface-3: #e6efeb;
+  --color-line: #dbe7e2;
+  --color-line-strong: #c5d6cf;
+  --color-text: #0e1a16;
+  --color-muted: #5a6b64;
+  --color-faint: #8a9a93;
+
+  --color-brand: #0ba37f;
+  --color-brand-strong: #077a5f;
+  --color-brand-deep: #05513f;
+  --color-brand-soft: #d8f2ea;
+  --color-brand-tint: #eaf8f3;
+
+  --color-accent: #e8912a;
+  --color-accent-strong: #c9760f;
+  --color-accent-soft: #fbeacd;
+
+  --color-good: #12a150;
+  --color-warn: #e8912a;
+  --color-danger: #e5484d;
+  --color-danger-soft: #fbe0e1;
+  --color-info: #2d7ff9;
+
+  /* categorical — the six Pulse pillars */
+  --color-dim-1: #0ba37f; /* Cash-Flow Vitality */
+  --color-dim-2: #2d7ff9; /* Business Momentum */
+  --color-dim-3: #7c5cfc; /* Repayment Discipline */
+  --color-dim-4: #e8912a; /* Compliance */
+  --color-dim-5: #e6558f; /* Workforce */
+  --color-dim-6: #12b5c9; /* Digital Footprint */
+
+  --font-display: 'Sora', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+}
+
+/* Non-colour tokens (not Tailwind theme keys). */
+:root {
+  --bg-grid: rgba(11, 163, 127, 0.05);
+  --shadow-sm: 0 1px 2px rgba(14, 26, 22, 0.06);
+  --shadow-md: 0 6px 20px -8px rgba(14, 26, 22, 0.16);
+  --shadow-lg: 0 24px 48px -16px rgba(14, 26, 22, 0.22);
+  --ring: rgba(11, 163, 127, 0.4);
+}
+
+.dark {
+  --color-bg: #08120f;
+  --color-surface: #0f1d18;
+  --color-surface-2: #14251f;
+  --color-surface-3: #1a2e27;
+  --color-line: #223730;
+  --color-line-strong: #2e463d;
+  --color-text: #e9f2ef;
+  --color-muted: #9db2ab;
+  --color-faint: #6d827b;
+
+  --color-brand: #1ec499;
+  --color-brand-strong: #16a683;
+  --color-brand-deep: #7be8cb;
+  --color-brand-soft: #10312a;
+  --color-brand-tint: #0d2620;
+
+  --color-accent: #f5b23b;
+  --color-accent-strong: #ffc861;
+  --color-accent-soft: #33260f;
+
+  --color-good: #2ec76e;
+  --color-warn: #f5b23b;
+  --color-danger: #f2666b;
+  --color-danger-soft: #331a1b;
+  --color-info: #5aa0ff;
+
+  --color-dim-1: #1ec499;
+  --color-dim-2: #5aa0ff;
+  --color-dim-3: #a189ff;
+  --color-dim-4: #f5b23b;
+  --color-dim-5: #f47cae;
+  --color-dim-6: #3ad0e2;
+
+  --bg-grid: rgba(30, 196, 153, 0.06);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px -10px rgba(0, 0, 0, 0.55);
+  --shadow-lg: 0 28px 56px -18px rgba(0, 0, 0, 0.7);
+  --ring: rgba(30, 196, 153, 0.45);
+}
+
+/* ------------------------------------------------------------------ base -- */
+/* Tailwind v4 defaults borders to currentColor — set a sane default. */
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  transition: background-color 0.35s ease, color 0.35s ease;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+p { margin: 0; }
+
+.font-num {
+  font-family: var(--font-mono);
+  font-feature-settings: 'tnum' 1;
+}
+
+/* Subtle dotted-grid page backdrop (India-Stack "data fabric" vibe). */
+.bg-fabric {
+  background-image: radial-gradient(var(--bg-grid) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Focus visibility for keyboard nav (a11y). */
+:focus-visible {
+  outline: 2px solid var(--color-brand);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+::selection {
+  background: var(--color-brand);
+  color: #fff;
+}
+
+/* Thin, themed scrollbars. */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-thumb {
+  background: var(--color-line-strong);
+  border-radius: 999px;
+  border: 2px solid var(--color-bg);
+}
+::-webkit-scrollbar-track { background: transparent; }
+
+/* ------------------------------------------------------ reusable classes -- */
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.card-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-line-strong);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  border: 1px solid var(--color-line);
+  background: var(--color-surface-2);
+  color: var(--color-muted);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 10px 18px;
+  cursor: pointer;
+  transition: transform 0.15s ease, background-color 0.2s ease,
+    box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+}
+.btn:active { transform: translateY(1px) scale(0.99); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn-primary {
+  background: var(--color-brand);
+  color: #fff;
+  box-shadow: 0 8px 20px -10px var(--ring);
+}
+.btn-primary:hover:not(:disabled) { background: var(--color-brand-strong); }
+.btn-ghost {
+  background: var(--color-surface-2);
+  color: var(--color-text);
+  border-color: var(--color-line);
+}
+.btn-ghost:hover { background: var(--color-surface-3); }
+
+.gradient-text {
+  background: linear-gradient(100deg, var(--color-brand) 0%, var(--color-dim-6) 55%, var(--color-accent) 120%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Recharts tooltips inherit theme. */
+.recharts-default-tooltip {
+  background: var(--color-surface) !important;
+  border: 1px solid var(--color-line-strong) !important;
+  border-radius: 12px !important;
+  box-shadow: var(--shadow-md) !important;
+  color: var(--color-text) !important;
+}
+.recharts-tooltip-item { color: var(--color-text) !important; }
+
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+/* Respect reduced-motion. */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Print — clean Financial Health Card export. */
+@media print {
+  header, aside, nav { display: none !important; }
+  body { background: #fff; }
+  .card { box-shadow: none; border-color: #ddd; }
+}
