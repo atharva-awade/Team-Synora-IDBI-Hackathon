@@ -31,3 +31,6 @@ dist-ssr
 
 # Vercel
 .vercel
+
+# Local presentation build artifacts (deck is delivered separately)
+presentation/
